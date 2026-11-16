@@ -6,7 +6,8 @@
   "scripts": {
     "pretest": "npm run compile",
     "test": "hardhat --config hardhat.config.cjs test --no-compile",
-    "compile": "node scripts/compile.cjs"
+    "compile": "node scripts/compile.cjs",
+    "verify:delivery": "npm run compile && node scripts/verify-delivery.cjs"
   },
   "dependencies": {
     "@openzeppelin/contracts": "4.9.6",

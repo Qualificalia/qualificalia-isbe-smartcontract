@@ -102,7 +102,8 @@ describe('Qualificalia HashTimestamp ISBE facet (MOCK governance only)', functio
     const selectors = await instance.selectorsIntrospection();
     const required = ['timestampHash(bytes32)', 'exists(bytes32)', 'getTimestamp(bytes32)'].map(x => id(x).slice(0, 10));
     assert.deepEqual([...selectors].sort(), required.sort());
-    assert.notEqual(await instance.businessIdIntrospection(), '0x' + '00'.repeat(32));
+    assert.equal(await instance.businessIdIntrospection(), id('isbe.customers.qualificalia.documentRegistry.resolver.key'));
+    assert.equal(await instance.businessIdIntrospection(), '0x1731c65d9dd332bcfd4ee398add0a7f786149f91a2dd48abc865b4ebeff1bb3b');
     const interfaceId = ['timestampHash(bytes32)', 'exists(bytes32)', 'getTimestamp(bytes32)']
       .map(signature => BigInt(id(signature).slice(0, 10)))
       .reduce((value, selector) => value ^ selector, 0n);

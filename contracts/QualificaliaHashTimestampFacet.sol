@@ -10,9 +10,9 @@ import {IEIP2535Introspection} from '@red-isbe/isbe-contracts/contracts/proxies/
 ///      The proposed business ID must be registered/approved by ISBE before use.
 ///      Add this facet to an ISBE-governed Diamond; do not deploy it as a standalone registry.
 contract QualificaliaHashTimestampFacet is HashTimestamp, IEIP2535Introspection {
-    /// @dev Provisional resolver key. Confirm/allowlist this key with ISBE before deployment.
+    /// @dev Proposed resolver key; confirm availability and configuration with ISBE.
     bytes32 internal constant QUALIFICALIA_HASH_TIMESTAMP_RESOLVER_KEY =
-        keccak256('com.qualificalia.isbe.certificate-credential-hash-timestamp.v1');
+        keccak256('isbe.customers.qualificalia.documentRegistry.resolver.key');
 
     function interfacesIntrospection()
         external

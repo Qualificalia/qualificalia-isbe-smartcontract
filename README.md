@@ -16,9 +16,9 @@ Las lecturas mediante una llamada de consulta no consumen gas al usuario. El con
 
 La facet hereda la lógica oficial `HashTimestamp` de `@red-isbe/isbe-contracts` 0.2.1. Incluye introspección de la interfaz y los tres selectores. La facet es un módulo de un Diamond de ISBE, no un registro autónomo. Comparte selectores y almacenamiento con la facet `HashTimestampFacet` oficial; debe sustituirla en la misma configuración, no coexistir con ella.
 
-La facet propone el business ID `keccak256("com.qualificalia.isbe.certificate-credential-hash-timestamp.v1")`. Es una etiqueta para identificar y versionar la facet en la infraestructura de ISBE; no es el DID ni la dirección de Qualificalia. Es provisional: la persona desplegadora debe confirmar si acepta ese ID o requiere el oficial. Un ID diferente no añade funcionalidad a la lógica oficial.
+La facet propone el business ID `keccak256("isbe.customers.qualificalia.documentRegistry.resolver.key")`, que produce `0x1731c65d9dd332bcfd4ee398add0a7f786149f91a2dd48abc865b4ebeff1bb3b`. La cadena sigue la convención de nombres de la [plantilla oficial ISBE](https://github.com/red-isbe/isbe-clients-template/blob/fa7e8b9966d6be69c498264eaf069aaca361eea3/README.md#3-define-your-namespace-and-constants). El ID identifica la facet, no el DID ni la dirección de Qualificalia. Es una propuesta: ISBE debe confirmar su disponibilidad y si corresponde registrar una facet propia o utilizar directamente la oficial. Un ID diferente no añade funcionalidad a la lógica oficial. La configuración ISBE debe referirse exactamente al mismo ID que devuelve la facet.
 
-El rol de escritura es `_HASH_TIMESTAMP_ROLE` (`0x3bb8341caefb6dc4800c130d6d6d2789f8c4e534bc168ff9a7eda2e2831a721f`). La lógica oficial consulta el control de acceso del Diamond: **no fija una dirección en el código**. Solicitar la asignación inicial indicada en [ENTREGA-A-ISBE.md](ENTREGA-A-ISBE.md) y verificar que ninguna otra cuenta o DID tenga permiso de escritura salvo lo acordado. La administración de roles y la pausa se configuran mediante la gobernanza ISBE.
+El rol de escritura es `_HASH_TIMESTAMP_ROLE` (`0x3bb8341caefb6dc4800c130d6d6d2789f8c4e534bc168ff9a7eda2e2831a721f`). La lógica oficial consulta el control de acceso del Diamond: **no fija una dirección en el código**. Solicitar la asignación inicial a la EOA indicada en [ENTREGA-A-ISBE.md](ENTREGA-A-ISBE.md), sin asignar el rol de escritura a otros DIDs o cuentas, y verificar los permisos efectivos. En la versión 0.2.1 se comprueban tanto el rol de la EOA como el del DID al que se resuelve, por lo que concederlo a un DID puede habilitar otras cuentas vinculadas. Un administrador de roles puede modificar esas autorizaciones. La administración de roles y la pausa se configuran mediante la gobernanza ISBE.
 
 El almacenamiento de HashTimestamp usa el slot oficial `0x9461e6f53daf5c3d0aa4d10025e40b84fad06da43fb4fab1a98f3e6b3a58d616`, con un `mapping(bytes32 => uint256)` de huella a timestamp. Las facetas de gobernanza utilizan además sus propios slots oficiales. Los cambios futuros deben preservar compatibilidad de almacenamiento.
 
@@ -29,9 +29,12 @@ Requisitos: Node.js 20 o superior y npm. Desde este directorio:
 ```sh
 npm ci --ignore-scripts
 npm test
+npm run verify:delivery
 ```
 
 Se fijan `solc` 0.8.28, optimizador de 200 pasadas, EVM `istanbul` y las dependencias en `package-lock.json`. `npm run compile` genera en `build/` ABI, bytecode, metadatos y `standard-input.json`, que contiene las fuentes exactas de las dependencias usadas. El compilador comprueba que ese input reproduce el bytecode. La carpeta `entrega/` conserva el input completo y el artefacto de la facet generados para esta versión; `build/` es local y no se versiona.
+
+`npm run verify:delivery` recompila y comprueba que ambos archivos de `entrega/` coinciden con el resultado. `.gitattributes` fija finales de línea LF en las fuentes para que su contenido y metadatos de compilación sean consistentes entre sistemas.
 
 La revisión de dependencias con `npm audit` del 16/11/2026 muestra 18 avisos: 13 bajos, 3 moderados y 2 altos (`serialize-javascript` y `tmp`) en el árbol de herramientas y dependencias del proyecto. No se ha evaluado su explotación en este uso concreto. Los cambios mayores que sugiere npm pueden alterar la versión de referencia ISBE o el entorno de pruebas; deben revisarse con el equipo antes de adoptarlos. Estos avisos no son un análisis del contrato Solidity.
 
@@ -39,6 +42,6 @@ Las pruebas ejecutan la lógica en Hardhat en memoria y comprueban registro de d
 
 ## Estado
 
-El código se entrega para revisión técnica de ISBE. La aceptación del business ID, la versión admitida, la composición del Diamond, los permisos y su vinculación a la identidad corporativa requieren confirmación de ISBE. El emisor de Wallet Profile debe integrarse con el Diamond una vez conocido el despliegue. Véase [ENTREGA-A-ISBE.md](ENTREGA-A-ISBE.md).
+El código se entrega para revisión técnica de ISBE. La aceptación del business ID, la versión admitida, la composición del Diamond, los permisos y su vinculación a la identidad corporativa requieren confirmación de ISBE. La [guía de contratos custom](https://docs.redisbe.com/documentation/smart-contracts/contratos-custom/) contempla además scripts de despliegue, pruebas de integración, cobertura y análisis estático; este proyecto aún no incorpora esas evidencias y debe acordar con ISBE el procedimiento aplicable. El emisor de Wallet Profile debe integrarse con el Diamond una vez conocido el despliegue. Véase [ENTREGA-A-ISBE.md](ENTREGA-A-ISBE.md) y [CAMBIOS.md](CAMBIOS.md).
 
 Código bajo licencia Apache-2.0; `HashTimestamp` y otras dependencias mantienen sus licencias y atribuciones originales.
