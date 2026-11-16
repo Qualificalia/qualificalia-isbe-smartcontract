@@ -1,0 +1,18 @@
+{
+  "name": "qualificalia-isbe-smartcontract",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Facet ISBE para huellas de certificados y credenciales de Qualificalia",
+  "scripts": {
+    "pretest": "npm run compile",
+    "test": "hardhat --config hardhat.config.cjs test --no-compile",
+    "compile": "node scripts/compile.cjs"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "4.9.6",
+    "@red-isbe/isbe-contracts": "0.2.1",
+    "ethers": "6.17.0",
+    "hardhat": "2.29.2",
+    "solc": "0.8.28"
+  }
+}

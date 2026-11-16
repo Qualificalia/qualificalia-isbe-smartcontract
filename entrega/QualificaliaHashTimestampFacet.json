@@ -1,0 +1,1376 @@
+{
+  "contractName": "QualificaliaHashTimestampFacet",
+  "sourceName": "contracts/QualificaliaHashTimestampFacet.sol",
+  "solc": "0.8.28+commit.7893614a.Emscripten.clang",
+  "optimizer": {
+    "enabled": true,
+    "runs": 200
+  },
+  "evmVersion": "istanbul",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        }
+      ],
+      "name": "AccountHasNoRole",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "AddressZero",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "facetKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "currentVersion",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "attemptedVersion",
+          "type": "uint256"
+        }
+      ],
+      "name": "ContractIsAlreadyInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "EmptyBytes",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "EmptyBytes32",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "EmptyString",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "EmptyUint",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "hash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "HashAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "facetKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "currentVersion",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "requiredVersion",
+          "type": "uint256"
+        }
+      ],
+      "name": "InsufficientVersion",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_before",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_after",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvalidDates",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "facetKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "currentVersion",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "attemptedVersion",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvalidReinitializerVersion",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidVersionZero",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "IsPaused",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "NotSameLength",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "NotSameLengthArray",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "UnimplementedMethod",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "hash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "HashTimestamped",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "facetKey",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "version",
+          "type": "uint256"
+        }
+      ],
+      "name": "Initialized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "facetKey",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "previousVersion",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newVersion",
+          "type": "uint256"
+        }
+      ],
+      "name": "Reinitialized",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "businessIdIntrospection",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "businessId_",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_hash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "exists",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_hash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getTimestamp",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "interfacesIntrospection",
+      "outputs": [
+        {
+          "internalType": "bytes4[]",
+          "name": "interfaces_",
+          "type": "bytes4[]"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "selectorsIntrospection",
+      "outputs": [
+        {
+          "internalType": "bytes4[]",
+          "name": "selectors_",
+          "type": "bytes4[]"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_hash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "timestampHash",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b5061095c8061001f6000396000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c80630e744b84146100675780632e7154411461007c57806338a699a4146100b1578063bef71430146100d4578063d45c4435146100e9578063e3b807a0146100fc575b600080fd5b61007a610075366004610812565b610104565b005b7f36151f492781f69304932c965eb3807ec80f3ba04bec126cd3b4a80278cf35ff5b6040519081526020015b60405180910390f35b6100c46100bf366004610812565b61014e565b60405190151581526020016100a8565b6100dc610173565b6040516100a8919061082b565b61009e6100f7366004610812565b610182565b6100dc6101a3565b8061010e8161026a565b6101166102b6565b7f3bb8341caefb6dc4800c130d6d6d2789f8c4e534bc168ff9a7eda2e2831a721f610140816102fb565b61014983610308565b505050565b6000818152600080516020610907833981519152602052604081205415155b92915050565b606061017d610369565b905090565b6000818152600080516020610907833981519152602052604081205461016d565b60408051600380825260808201909252606091602082018380368337019050509050630e744b8460e01b816000815181106101e0576101e0610878565b6001600160e01b0319909216602092830291909101909101528051630e29a66960e21b908290600190811061021757610217610878565b6001600160e01b031990921660209283029190910190910152805163d45c443560e01b908290600290811061024e5761024e610878565b6001600160e01b03199092166020928302919091019091015290565b600081815260008051602061090783398151915260205260409020548190156102b257604051630520235f60e11b81526004016102a991815260200190565b60405180910390fd5b5050565b7f1d1f84ff22b88aba71617485b5278dbc9110b6bf91b86a247efd1071e92d099a5460ff16156102f957604051631309a56360e01b815260040160405180910390fd5b565b61030581336103cf565b50565b60004290508060008051602061090783398151915260008481526020918252604090819020929092559051828152339184917fc95cc050cda05eb67853707da57b3cbf7dbb9ae8b72f8e8853dc7cf215a96384910160405180910390a35050565b60408051600180825281830190925260609190816020808301908036833701905050915063e28e961560e01b8261039f8361088e565b925082815181106103b2576103b2610878565b6001600160e01b0319909216602092830291909101909101525090565b6103d98282610411565b8183909161040b5760405163a1180aad60e01b81526001600160a01b03909216600483015260248201526044016102a9565b50505050565b600061041d838361043c565b8061043557506104358361043084610473565b6104c3565b9392505050565b60008281527fb335729b1c9d0dd5cb00f5400f21de5f6cbacc7f26b7f1d63701569692e3b8ee602052604081206104359083610515565b60006104a87ff18df51d58cf839810651e76968ddc504b87839e67b92222df77a61aa4446f7b546001600160a01b0316151590565b6104ba576104b582610537565b61016d565b61016d82610542565b6000610435827fb335729b1c9d0dd5cb00f5400f21de5f6cbacc7f26b7f1d63701569692e3b8ee6000868152602091909152604090206002019060008181526001830160205260408120541515610435565b6001600160a01b03811660009081526001830160205260408120541515610435565b600061016d826105e1565b60006105757ff18df51d58cf839810651e76968ddc504b87839e67b92222df77a61aa4446f7b546001600160a01b031690565b60405163364c707b60e01b81526001600160a01b038481166004830152919091169063364c707b90602401602060405180830381865afa1580156105bd573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061016d91906108b3565b6001600160a01b03811660009081527f80e94812a2790226ccf997ec25d285a8dcc6c5b510b98e9845f990554184065360209081526040808320548084527f80e94812a2790226ccf997ec25d285a8dcc6c5b510b98e9845f99055418406519092529091207f80e94812a2790226ccf997ec25d285a8dcc6c5b510b98e9845f9905541840650906106728185610687565b61067d57600061067f565b825b949350505050565b600c82015460009060ff1661069e5750600061016d565b6001600160a01b0382166000908152600b840160205260409020548015806106d75750600081815260098501602052604090205460ff16155b156106e657600091505061016d565b6000818152600a850160205260408120546006860180549192918390811061071057610710610878565b90600052602060002090600502016040518060a0016040529081600082018054610739906108cc565b80601f0160208091040260200160405190810160405280929190818152602001828054610765906108cc565b80156107b25780601f10610787576101008083540402835291602001916107b2565b820191906000526020600020905b81548152906001019060200180831161079557829003601f168201915b50505050508152602001600182015481526020016002820154815260200160038201548152602001600482015481525050905060006107ee4290565b9050816040015181101580156108075750816060015181105b979650505050505050565b60006020828403121561082457600080fd5b5035919050565b602080825282518282018190526000918401906040840190835b8181101561086d5783516001600160e01b031916835260209384019390920191600101610845565b509095945050505050565b634e487b7160e01b600052603260045260246000fd5b6000816108ab57634e487b7160e01b600052601160045260246000fd5b506000190190565b6000602082840312156108c557600080fd5b5051919050565b600181811c908216806108e057607f821691505b60208210810361090057634e487b7160e01b600052602260045260246000fd5b5091905056fe9461e6f53daf5c3d0aa4d10025e40b84fad06da43fb4fab1a98f3e6b3a58d616a2646970667358221220ac72f962f83657df8cd51798279a2e00f5f73a650a1212f7acb36aecee330bec64736f6c634300081c0033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100625760003560e01c80630e744b84146100675780632e7154411461007c57806338a699a4146100b1578063bef71430146100d4578063d45c4435146100e9578063e3b807a0146100fc575b600080fd5b61007a610075366004610812565b610104565b005b7f36151f492781f69304932c965eb3807ec80f3ba04bec126cd3b4a80278cf35ff5b6040519081526020015b60405180910390f35b6100c46100bf366004610812565b61014e565b60405190151581526020016100a8565b6100dc610173565b6040516100a8919061082b565b61009e6100f7366004610812565b610182565b6100dc6101a3565b8061010e8161026a565b6101166102b6565b7f3bb8341caefb6dc4800c130d6d6d2789f8c4e534bc168ff9a7eda2e2831a721f610140816102fb565b61014983610308565b505050565b6000818152600080516020610907833981519152602052604081205415155b92915050565b606061017d610369565b905090565b6000818152600080516020610907833981519152602052604081205461016d565b60408051600380825260808201909252606091602082018380368337019050509050630e744b8460e01b816000815181106101e0576101e0610878565b6001600160e01b0319909216602092830291909101909101528051630e29a66960e21b908290600190811061021757610217610878565b6001600160e01b031990921660209283029190910190910152805163d45c443560e01b908290600290811061024e5761024e610878565b6001600160e01b03199092166020928302919091019091015290565b600081815260008051602061090783398151915260205260409020548190156102b257604051630520235f60e11b81526004016102a991815260200190565b60405180910390fd5b5050565b7f1d1f84ff22b88aba71617485b5278dbc9110b6bf91b86a247efd1071e92d099a5460ff16156102f957604051631309a56360e01b815260040160405180910390fd5b565b61030581336103cf565b50565b60004290508060008051602061090783398151915260008481526020918252604090819020929092559051828152339184917fc95cc050cda05eb67853707da57b3cbf7dbb9ae8b72f8e8853dc7cf215a96384910160405180910390a35050565b60408051600180825281830190925260609190816020808301908036833701905050915063e28e961560e01b8261039f8361088e565b925082815181106103b2576103b2610878565b6001600160e01b0319909216602092830291909101909101525090565b6103d98282610411565b8183909161040b5760405163a1180aad60e01b81526001600160a01b03909216600483015260248201526044016102a9565b50505050565b600061041d838361043c565b8061043557506104358361043084610473565b6104c3565b9392505050565b60008281527fb335729b1c9d0dd5cb00f5400f21de5f6cbacc7f26b7f1d63701569692e3b8ee602052604081206104359083610515565b60006104a87ff18df51d58cf839810651e76968ddc504b87839e67b92222df77a61aa4446f7b546001600160a01b0316151590565b6104ba576104b582610537565b61016d565b61016d82610542565b6000610435827fb335729b1c9d0dd5cb00f5400f21de5f6cbacc7f26b7f1d63701569692e3b8ee6000868152602091909152604090206002019060008181526001830160205260408120541515610435565b6001600160a01b03811660009081526001830160205260408120541515610435565b600061016d826105e1565b60006105757ff18df51d58cf839810651e76968ddc504b87839e67b92222df77a61aa4446f7b546001600160a01b031690565b60405163364c707b60e01b81526001600160a01b038481166004830152919091169063364c707b90602401602060405180830381865afa1580156105bd573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061016d91906108b3565b6001600160a01b03811660009081527f80e94812a2790226ccf997ec25d285a8dcc6c5b510b98e9845f990554184065360209081526040808320548084527f80e94812a2790226ccf997ec25d285a8dcc6c5b510b98e9845f99055418406519092529091207f80e94812a2790226ccf997ec25d285a8dcc6c5b510b98e9845f9905541840650906106728185610687565b61067d57600061067f565b825b949350505050565b600c82015460009060ff1661069e5750600061016d565b6001600160a01b0382166000908152600b840160205260409020548015806106d75750600081815260098501602052604090205460ff16155b156106e657600091505061016d565b6000818152600a850160205260408120546006860180549192918390811061071057610710610878565b90600052602060002090600502016040518060a0016040529081600082018054610739906108cc565b80601f0160208091040260200160405190810160405280929190818152602001828054610765906108cc565b80156107b25780601f10610787576101008083540402835291602001916107b2565b820191906000526020600020905b81548152906001019060200180831161079557829003601f168201915b50505050508152602001600182015481526020016002820154815260200160038201548152602001600482015481525050905060006107ee4290565b9050816040015181101580156108075750816060015181105b979650505050505050565b60006020828403121561082457600080fd5b5035919050565b602080825282518282018190526000918401906040840190835b8181101561086d5783516001600160e01b031916835260209384019390920191600101610845565b509095945050505050565b634e487b7160e01b600052603260045260246000fd5b6000816108ab57634e487b7160e01b600052601160045260246000fd5b506000190190565b6000602082840312156108c557600080fd5b5051919050565b600181811c908216806108e057607f821691505b60208210810361090057634e487b7160e01b600052602260045260246000fd5b5091905056fe9461e6f53daf5c3d0aa4d10025e40b84fad06da43fb4fab1a98f3e6b3a58d616a2646970667358221220ac72f962f83657df8cd51798279a2e00f5f73a650a1212f7acb36aecee330bec64736f6c634300081c0033",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.28+commit.7893614a"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            }
+          ],
+          "name": "AccountHasNoRole",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "addr",
+              "type": "address"
+            }
+          ],
+          "name": "AddressZero",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "facetKey",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentVersion",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "attemptedVersion",
+              "type": "uint256"
+            }
+          ],
+          "name": "ContractIsAlreadyInitialized",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "EmptyBytes",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "EmptyBytes32",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "EmptyString",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "EmptyUint",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "hash",
+              "type": "bytes32"
+            }
+          ],
+          "name": "HashAlreadyExists",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "facetKey",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentVersion",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "requiredVersion",
+              "type": "uint256"
+            }
+          ],
+          "name": "InsufficientVersion",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "_before",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_after",
+              "type": "uint256"
+            }
+          ],
+          "name": "InvalidDates",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "facetKey",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentVersion",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "attemptedVersion",
+              "type": "uint256"
+            }
+          ],
+          "name": "InvalidReinitializerVersion",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "InvalidVersionZero",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "IsPaused",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "a",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "b",
+              "type": "uint256"
+            }
+          ],
+          "name": "NotSameLength",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "a",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "b",
+              "type": "uint256"
+            }
+          ],
+          "name": "NotSameLengthArray",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "UnimplementedMethod",
+          "type": "error"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "hash",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "name": "HashTimestamped",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "facetKey",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "version",
+              "type": "uint256"
+            }
+          ],
+          "name": "Initialized",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "facetKey",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "previousVersion",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "newVersion",
+              "type": "uint256"
+            }
+          ],
+          "name": "Reinitialized",
+          "type": "event"
+        },
+        {
+          "inputs": [],
+          "name": "businessIdIntrospection",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "businessId_",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_hash",
+              "type": "bytes32"
+            }
+          ],
+          "name": "exists",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_hash",
+              "type": "bytes32"
+            }
+          ],
+          "name": "getTimestamp",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "interfacesIntrospection",
+          "outputs": [
+            {
+              "internalType": "bytes4[]",
+              "name": "interfaces_",
+              "type": "bytes4[]"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "selectorsIntrospection",
+          "outputs": [
+            {
+              "internalType": "bytes4[]",
+              "name": "selectors_",
+              "type": "bytes4[]"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_hash",
+              "type": "bytes32"
+            }
+          ],
+          "name": "timestampHash",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        }
+      ],
+      "devdoc": {
+        "details": "Uses the official HashTimestamp storage, role, pause, event and query logic.      The proposed business ID must be registered/approved by ISBE before use.      Add this facet to an ISBE-governed Diamond; do not deploy it as a standalone registry.",
+        "errors": {
+          "AccountHasNoRole(address,bytes32)": [
+            {
+              "details": "Error thrown when an account does not have a required role",
+              "params": {
+                "account": "The account that lacks the role",
+                "role": "The required role that is missing"
+              }
+            }
+          ],
+          "AddressZero(address)": [
+            {
+              "params": {
+                "addr": "The address that was found to be zero."
+              }
+            }
+          ],
+          "ContractIsAlreadyInitialized(bytes32,uint256,uint256)": [
+            {
+              "details": "Error thrown when attempting to initialise an already initialised facet.",
+              "params": {
+                "attemptedVersion": "The version that was attempted to be set",
+                "currentVersion": "The current version of the facet",
+                "facetKey": "The facet that is already initialised"
+              }
+            }
+          ],
+          "InsufficientVersion(bytes32,uint256,uint256)": [
+            {
+              "details": "Error thrown when attempting to call a function before required version.",
+              "params": {
+                "currentVersion": "The current version of the facet",
+                "facetKey": "The facet being accessed",
+                "requiredVersion": "The minimum version required"
+              }
+            }
+          ],
+          "InvalidDates(uint256,uint256)": [
+            {
+              "params": {
+                "_after": "The later timestamp that should follow the earlier one",
+                "_before": "The earlier timestamp that should precede the later one"
+              }
+            }
+          ],
+          "InvalidReinitializerVersion(bytes32,uint256,uint256)": [
+            {
+              "details": "Error thrown when attempting to reinitialise with an invalid version.",
+              "params": {
+                "attemptedVersion": "The version that was attempted",
+                "currentVersion": "The current version of the facet",
+                "facetKey": "The facet being reinitialised"
+              }
+            }
+          ],
+          "InvalidVersionZero()": [
+            {
+              "details": "Error thrown when attempting to use version 0 (reserved for uninitialised state)."
+            }
+          ],
+          "NotSameLength(uint256,uint256)": [
+            {
+              "params": {
+                "a": "The length of the first value",
+                "b": "The length of the second value"
+              }
+            }
+          ],
+          "NotSameLengthArray(uint256,uint256)": [
+            {
+              "params": {
+                "a": "The length of the first array",
+                "b": "The length of the second array"
+              }
+            }
+          ],
+          "UnimplementedMethod()": [
+            {
+              "details": "This is useful in fallback functions or as a placeholder to prevent the execution of incomplete or abstract functionality."
+            }
+          ]
+        },
+        "events": {
+          "HashTimestamped(bytes32,address,uint256)": {
+            "params": {
+              "hash": "The hash that was timestamped",
+              "sender": "The address that submitted the hash to timestamp",
+              "timestamp": "The block timestamp when the hash was recorded"
+            }
+          },
+          "Initialized(bytes32,uint256)": {
+            "details": "Emitted when a facet is initialised for the first time.",
+            "params": {
+              "facetKey": "The unique identifier for the facet",
+              "version": "The version that was initialised"
+            }
+          },
+          "Reinitialized(bytes32,uint256,uint256)": {
+            "details": "Emitted when a facet is reinitialised to a new version.",
+            "params": {
+              "facetKey": "The unique identifier for the facet",
+              "newVersion": "The new version after reinitialisation",
+              "previousVersion": "The version before reinitialisation"
+            }
+          }
+        },
+        "kind": "dev",
+        "methods": {
+          "businessIdIntrospection()": {
+            "details": "Returns a `bytes32` key identifying the facet's purpose.",
+            "returns": {
+              "businessId_": "The `bytes32` ID for the business logic."
+            }
+          },
+          "exists(bytes32)": {
+            "params": {
+              "_hash": "The hash to check"
+            },
+            "returns": {
+              "_0": "True if the hash has been recorded, false in other case"
+            }
+          },
+          "getTimestamp(bytes32)": {
+            "params": {
+              "_hash": "The hash to query"
+            },
+            "returns": {
+              "_0": "The timestamp when the hash was recorded"
+            }
+          },
+          "interfacesIntrospection()": {
+            "details": "A pure function that returns an array of supported `bytes4` IDs.",
+            "returns": {
+              "interfaces_": "An array of supported interface identifiers."
+            }
+          },
+          "selectorsIntrospection()": {
+            "details": "A pure function that returns a `bytes4[]` array of selectors.",
+            "returns": {
+              "selectors_": "An array of `bytes4` function selectors."
+            }
+          },
+          "timestampHash(bytes32)": {
+            "params": {
+              "_hash": "The hash to be timestamped"
+            }
+          }
+        },
+        "stateVariables": {
+          "QUALIFICALIA_HASH_TIMESTAMP_RESOLVER_KEY": {
+            "details": "Provisional resolver key. Confirm/allowlist this key with ISBE before deployment."
+          }
+        },
+        "title": "QualificaliaHashTimestampFacet",
+        "version": 1
+      },
+      "userdoc": {
+        "errors": {
+          "AddressZero(address)": [
+            {
+              "notice": "Raised when an operation receives the zero address where a valid address is expected."
+            }
+          ],
+          "EmptyBytes()": [
+            {
+              "notice": "Raised when a `bytes` array is empty but is expected to have content."
+            }
+          ],
+          "EmptyBytes32()": [
+            {
+              "notice": "Raised when a `bytes32` value is empty (i.e., all zeros) but is expected to have a value."
+            }
+          ],
+          "EmptyString()": [
+            {
+              "notice": "Emitted when a string is empty but is expected to contain text"
+            }
+          ],
+          "EmptyUint()": [
+            {
+              "notice": "Emitted when a uint256 value is zero but is expected to be greater than zero"
+            }
+          ],
+          "InvalidDates(uint256,uint256)": [
+            {
+              "notice": "Emitted when date validation fails due to invalid chronological ordering"
+            }
+          ],
+          "IsPaused()": [
+            {
+              "notice": "Thrown when attempting to execute an action that requires the contract to be unpaused"
+            }
+          ],
+          "NotSameLength(uint256,uint256)": [
+            {
+              "notice": "Emitted when two values are expected to have the same length but differ"
+            }
+          ],
+          "NotSameLengthArray(uint256,uint256)": [
+            {
+              "notice": "Emitted when two arraysdo not match in length"
+            }
+          ],
+          "UnimplementedMethod()": [
+            {
+              "notice": "Raised when a function is called that has not been implemented."
+            }
+          ]
+        },
+        "events": {
+          "HashTimestamped(bytes32,address,uint256)": {
+            "notice": "Emitted when a hash is timestamped"
+          }
+        },
+        "kind": "user",
+        "methods": {
+          "businessIdIntrospection()": {
+            "notice": "Retrieves the unique business identifier for this facet."
+          },
+          "exists(bytes32)": {
+            "notice": "Checks whether a hash has been timestamped"
+          },
+          "getTimestamp(bytes32)": {
+            "notice": "Returns the timestamp when a hash was recorded"
+          },
+          "interfacesIntrospection()": {
+            "notice": "Gets the list of ERC-165 interface IDs the facet supports."
+          },
+          "selectorsIntrospection()": {
+            "notice": "Gets all function selectors implemented by this facet."
+          },
+          "timestampHash(bytes32)": {
+            "notice": "Timestamps a given hash"
+          }
+        },
+        "notice": "ISBE Diamond facet for timestamping certificate and credential hashes.",
+        "version": 1
+      }
+    },
+    "settings": {
+      "compilationTarget": {
+        "contracts/QualificaliaHashTimestampFacet.sol": "QualificaliaHashTimestampFacet"
+      },
+      "evmVersion": "istanbul",
+      "libraries": {},
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "remappings": []
+    },
+    "sources": {
+      "@openzeppelin/contracts/utils/Context.sol": {
+        "keccak256": "0xa92e4fa126feb6907daa0513ddd816b2eb91f30a808de54f63c17d0e162c3439",
+        "license": "MIT",
+        "urls": [
+          "bzz-raw://a367861093b74443b137564d3f3c472f70bcf114739e62059c939f25e315706c",
+          "dweb:/ipfs/Qmd7JMpcxD9RuQjK3uM3EzJUgSqdN8vzp8eytEiuwxQJ6h"
+        ]
+      },
+      "@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+        "keccak256": "0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1",
+        "license": "MIT",
+        "urls": [
+          "bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f",
+          "dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy"
+        ]
+      },
+      "@openzeppelin/contracts/utils/structs/EnumerableSet.sol": {
+        "keccak256": "0x9f4357008a8f7d8c8bf5d48902e789637538d8c016be5766610901b4bba81514",
+        "license": "MIT",
+        "urls": [
+          "bzz-raw://20bf19b2b851f58a4c24543de80ae70b3e08621f9230eb335dc75e2d4f43f5df",
+          "dweb:/ipfs/QmSYuH1AhvJkPK8hNvoPqtExBcgTB42pPRHgTHkS5c5zYW"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/access/accessControl/AccessControlInternal.sol": {
+        "keccak256": "0x243dce67c45d854242aa3dde6d1f64043ec42a744c19b6e34bdb3ed5d48c9efd",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://e935a810990ea4b64eee2900ba1fe27a49b186e38b7009d566bb10f1e190a641",
+          "dweb:/ipfs/QmYpnZyFcVSruFoDESE4hSUHrnVCUG6HbjW1duoSTgQSpr"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/access/accessControl/IAccessControl.sol": {
+        "keccak256": "0xe9a2d3611c77263a535c71c3ac586acb16a3a128b3a1a835ca8642e7dbe7c778",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://2cfac9b7fd3fd879a5cfa0510adc93d90206d1df7001b6e7a8e91464d1399956",
+          "dweb:/ipfs/QmXjwXdBqYV6d8xAnziZ6kt4T5z6HEmWjfBSyXPN871wsD"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/access/accessControl/IAccessControlDid.sol": {
+        "keccak256": "0xe72bbe177e41b7c7693854c1cba93a02770440277c56f2c772a3758a9f87883a",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://f060497ab00a09f8c58fe2cf55d963692a58a21b3b5c21d2020bb89adc9f6c21",
+          "dweb:/ipfs/QmST892n3B9dY6G6rZqEH1wLLRiKLyJAufcNxiuDZSzQAs"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/access/accessControl/IAccessControlEoa.sol": {
+        "keccak256": "0xf27308f4a56a49bb8f89a9144d11e4c5c0b4f66330a0d47039781bcf2f9b7dc4",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://9317dce5cafe932f57d8ef5d598fea2e9f06091e754712ebb23beb8773cbff19",
+          "dweb:/ipfs/QmRRmDDLsQGceLDGmAC2c3Y2oeGSJrCbcmV7MVXJ1CpMr9"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/access/ownable/IOwnable.sol": {
+        "keccak256": "0xf1294513b427e8df1fa1b0642ce4bd7ad3cb2dd31d0c8beaf5888c9869d06bae",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://a535d00f11a55c8c836854abee7bfebb8b423da2c3869b8877b4bd7e2be9399a",
+          "dweb:/ipfs/QmeXeMGYBJUhvVDPyw3L12J2ueuATZsMXb6KoZicE4pK5R"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/access/ownable/OwnableInternal.sol": {
+        "keccak256": "0x3f866761794f8dd423f127af924e5172c4335db5025fddbc1622d240e620e7f5",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://83fb31bde3fb7ec4778ff1ab4a8d5f4fe414dd8fe6db5098ae80c9926b9d9a9d",
+          "dweb:/ipfs/QmdU3BSs1aa8bihTTQFD3s33M6pHKh4dtXW2Q9Ngt16f7o"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/access/whitelist/basic/BasicWhitelistInternal.sol": {
+        "keccak256": "0x148cefa56993fa59f5c336f4c0345720d129cd2113ae95cc789d377c7677b2b5",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://6543963f7f6fa3d2bef9bcbbf75c8aced6725cefbf290106e845e5f0dd6c47dc",
+          "dweb:/ipfs/QmcztsEu5yqNbfPGhNDF73N482qEkWMuzd2qPjdX7Tob4g"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/access/whitelist/basic/IBasicWhitelist.sol": {
+        "keccak256": "0xe97719935db849a6243783af8fe139fdc3491781505278602f2f2c2c5ef28c8b",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://336d1ae995b0f8724654f68bc0b418f073eecb7a20edbc6673d30e298108751a",
+          "dweb:/ipfs/QmT4bVHoCWW8ts9U9BpFGeptGdWkCB2oDaiTC3AA2wFgWc"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/accountabstraction/smartaccount/factory/ISmartAccountFactory.sol": {
+        "keccak256": "0x6eeba6d49e75c8f8df18f7c25d45eb91c4a4170c6ac8080ed45a66214411c824",
+        "license": "UNLICENSED",
+        "urls": [
+          "bzz-raw://78a99a3875f36b8753a516033c49637c1efcd8d34fc8ecba84fc36d95ce0dd97",
+          "dweb:/ipfs/QmbURwhUqobVCCe1JoVUTEowWyQ3DPvnrtTjTKqygCwYkV"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/client/anchoring/IAnchoringCore.sol": {
+        "keccak256": "0x2c6cc3d61284bb0f30161a87527d0c77c7bd6fcfbc571cd82e85800a6b818e31",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://8d29292ca1d4c4d45e969601a51e5d79ad89d1767c19cc7447726bfb8445e1de",
+          "dweb:/ipfs/QmZotYrc19F6xu2nFMbkJE3fg9RMQCHSkmTo8ocRmHicfE"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/client/filtering/IClientFiltering.sol": {
+        "keccak256": "0xac7ede7aa8b3d5bc1d60a0f31ee85ec45eed6c0945a6982ca0157f8878751f66",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://af3fb5de1f41064121c13fb2d3ebdc92ed9e42beb5090c505b453bd16b2b2a9e",
+          "dweb:/ipfs/QmWJvM9LLaPMsZyb8qocyfVgc6VbRcU8uYwcSW4DwvhyLu"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/client/networkdirectory/INetworkDirectory.sol": {
+        "keccak256": "0x544b5968c43b1c503c2c7adfea713d49d625046f25c07ecc359ac791d54d06de",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://060eeac4eb92d98f94ae64f74acd1d19ed4f60cb8db82be297262dea2eb48dc5",
+          "dweb:/ipfs/QmWDKoa8dx3Rry1quoipksrSNXpuPdFM1mq4fJ2DYXzi55"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/client/networkdirectory/Types.sol": {
+        "keccak256": "0x0f94085c0dc63c75f1d606f305afaa21279e6ea65c26bb0c5ec8f67daba17d0e",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://dbe6f58f7278e1c1176f8b3a415630e698cce5251849bf3c899202b505a96322",
+          "dweb:/ipfs/QmQ2fvDmN3QQgpoWNKb9xEhZXkNNvPtN5pDYEdnu5PKUHH"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/client/tsr/ITimeStampingRegistry.sol": {
+        "keccak256": "0x76033ed97a51b06d7541c3ff830a08b1334ab61b0a39f780a88a293dcda42acd",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://b0db770093e61dadfaa614a221fe2abfe8690ea64941fa5d0120c4f0526f3fea",
+          "dweb:/ipfs/QmdcspmKk7QNCw5amxcdnQQ5iLLY8pv6842sKfW9CVx3PX"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/constants/roles.sol": {
+        "keccak256": "0x76a69c152fd6a9d5d1c5e264044308a3d767a133c455ced37d49095a5afa41ca",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://4e77f9e854bb8d46438558bf2a2051c3997cc972dc02b6902253178e0752642b",
+          "dweb:/ipfs/QmWqWirFeBvExh6pN5EoeLVdAeMu6qHMKZ5Gs2XrEm1KD7"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/constants/storagePositions.sol": {
+        "keccak256": "0xf3001f236a7524606d8809963fafae5950d90e66a866dc717d3e5f888230660a",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://52c09feb8b9455da3550c3649149d9c6ec4fc1308846fdb476082e345fea72de",
+          "dweb:/ipfs/QmWy8UNPg5CZNsRGCFV6MiVvrkfUUGmg4dS7CqK3s44mQ7"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/constants/values.sol": {
+        "keccak256": "0x8f394be02dbb727f9dd766403ba11169bcde131f79f914e090ee1e5065484746",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://68b1cbfc31b8d1b3fd51dfb3c4ccae0dc51b17c4152bd58e24f746576cc13737",
+          "dweb:/ipfs/Qma6pRMA3cNGJdrmXkscWYUUGR7gmN7HpUnVvDB4QEnRN5"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/core/Common.sol": {
+        "keccak256": "0x6604f8c8920a020b397294e106b27e04fb8b9a68d270a74fc862a834e5365bb1",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://8bd2962addbcd56a2dea3807c0ab222ab82b60d1017f1981669d920694e47437",
+          "dweb:/ipfs/QmZYgaNJYT5zjNzBCFavrgj9JTXjJU9PG9t1dEA8wMnpXp"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/core/ERC165Internal.sol": {
+        "keccak256": "0xda44f3c50bff1279bab455f5106e986e0436089d81827aadacdded14b54451b6",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://80712be03fd67ac347c0676fde95da341525dadd9c2ba33d1574b8657dfae733",
+          "dweb:/ipfs/QmT4QpSnsddSaokHUEScEKYc4eBSfrBt8pQkwiWvZpQDhA"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/core/Initializable.sol": {
+        "keccak256": "0xf1213eda52bb6e063346977dbd72422d9655c50ce64ce7a7461eb59c2ff4e561",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://a3dbed21a46be5a7d36c110abc4f03a4065748738c7230ff4f21a1e496487be2",
+          "dweb:/ipfs/Qmbkvorqb1729meaPZbXUwxmpS6jR3uU6DJVR7UaPxLRjn"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/core/LibCommon.sol": {
+        "keccak256": "0x2e7dfb0f2332fe254c311fa7987d07c9f7e4ee6b6e9c0bb02a97acb14c0b5ee2",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://50d60beab0542e90c6b9d209112d74f038f32ba050e57d5836120d02b32f23f3",
+          "dweb:/ipfs/QmXfP7LHqYEPjRJzUSMeYqajkonkDoe2ViC7hWcEK4U6Ls"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/core/signatureVerification.sol": {
+        "keccak256": "0xcf5a94dcb0510a401b5f83c431cf4d98e07cf085e3af410af300d5af2835e682",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://b79b1babc31070679df4afce8b9296a256e657b03bcbc36ec243e2495aa85663",
+          "dweb:/ipfs/QmQcj39fJg1vcvBroovSA8CWUYcA9NvpAu1ctsqvnkAnMz"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/factory/IIsbeFactory.sol": {
+        "keccak256": "0x0413a5c6a994a79b8cbc57b3b5fe56cb7883853cf083e8115a489397fa3553ee",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://f8da4ef5bb03315450760c04e1e5b02fd7b7f7b3bab460e8c46501ab4d7830bf",
+          "dweb:/ipfs/QmT5Kq8dBmoK9WK6kqxzuwumh2eXveyAGVnFmvkRZquKzR"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/factory/businesslogic/IBusinessLogicFactory.sol": {
+        "keccak256": "0x6a20b274a5b36652fc86afd43fa9c5558c13a6e245c093cd49ce3d124676fa7f",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://6fb78f46a66eb91b558336f7ecebaa3e533c451db8406b38ed5b15dba9fd0b32",
+          "dweb:/ipfs/QmPxu5mAdTvUxqF95M3ptzz2gfpza1DUcjoTrqWbpM2ZZP"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/factory/configurationmanagement/IConfigurationManagement.sol": {
+        "keccak256": "0x30c3190ddc2755ebb04983f68c3425db595ee36d21fca353c029ad717c24a895",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://c9008d2d1df39953be5977bc3290f2fb2e1a5f2973adced10180537241154d38",
+          "dweb:/ipfs/QmPhnUK3L8wyBBshhGDDh71F44DNcrsUNT5f2rfm72Lgd3"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/factory/globalisbepause/IGlobalIsbePause.sol": {
+        "keccak256": "0xa9a523815936f067ca802fd05fe2f622da40f92570532b1e093dd7d3d0b7b3a4",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://b3965a28a7d0152b960d2f56fdedfa5b0b7960c00fea4228dfa2f8501a93ee98",
+          "dweb:/ipfs/QmaQ1fY3biednrXycrEYh9rzHEs4xQMxx6nEBCpN1akX9y"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/factory/proxyfactory/IProxyFactory.sol": {
+        "keccak256": "0x51c955afe8b5ff441774fb68b7a2284258f5a9ff491f2e0698d7b346115dce79",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://5976b83a1e27b6cc1d939ef56d775dfa13cc5ae0c9e3fb26051d53134be2c74d",
+          "dweb:/ipfs/QmWtGHR2nro8QVFxgfC9YhTRaP2zLVfvxrnu2exrM5hrwm"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/hashtimestamp/HashTimestamp.sol": {
+        "keccak256": "0xd662943a57177e55db2f8652f6cbd7a0f8f04066878e78ebede1456a4284cf69",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://16eb5733f300b17b0bd7d50fc0cc9157fd7ce910b2bca290b2b93afa2381febc",
+          "dweb:/ipfs/QmWn4pWAjfv5MNrPZtJn4Zv64KEz2dNnyB1vnyecDrnywg"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/hashtimestamp/HashTimestampInternal.sol": {
+        "keccak256": "0x38b8f869721557bfab3b30910087848cdf7b5ccbc0e54104087e9a4f03348f9a",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://d1faaaef37d72eb0b8c89b03afe2e10cd91698791b02602b9b1c3a436a681a40",
+          "dweb:/ipfs/QmewoSYahvvcY4TBx6PJPAer9DjdewdtqFgMCnNfgHfyyB"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/hashtimestamp/IHashTimestamp.sol": {
+        "keccak256": "0x886602b72cd8e91000c47100c5d2a0b5ddf9949a4844cf0e25bfd337b7f757db",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://b03176b00ffc8d21f14225588f3de0739d2f2a6bef67ed2a90be961660f1b117",
+          "dweb:/ipfs/QmYGEmqHGjarBbHaQL7cgb5HaQPVrRDk59NWoK9MiKNxS7"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/DidDocumentDetailedInternal.sol": {
+        "keccak256": "0x15319d160e499651fd18842a2371b665df629676b8010e39dcac54ff1821acd1",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://1e2d77d65dc28183c1db17417f655d257ba1a0cd554199260cc0b37afb457044",
+          "dweb:/ipfs/QmTH7dWi4PGLAy2Q119nVgAj7WXgxxAAiNMnsYRx5V4Qkv"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/IDidRegistry.sol": {
+        "keccak256": "0xeb3dd5a249e30aeb1eb4640b17483b330fb2f9c4d87593ef84d246c03e5fadbb",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://2d9235be6dad57ae08ba02d573b8b502dabcbc244453e3b957bea4c8e07435ec",
+          "dweb:/ipfs/Qmd6uJcwWsswkA4Ypz5Vyet7PTDQT3FcnfZxDP6HJx7PfZ"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/VRelationshipsInternal.sol": {
+        "keccak256": "0xe17f9b880c1d1e251689f86997406e81dd8d3376ffdc29fb84f87a8c03b1a98e",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://bb722130c997b2e7a6c9310aba05e4ac4f2fb44b52aa567096cd62f26cf605f9",
+          "dweb:/ipfs/QmNZ33eUkKtLybZevVJKGFVn1X2HTgedC4EWMYEDA8G7QM"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/constants.sol": {
+        "keccak256": "0x7b03a72b596ee638db1bf0b1b806a60eb548ef75f95fa66e997e0d32963a125d",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://7a7ee1d7b972d1bdc2bb3cee61c7cd5addcd7faa5cf61cb53ed140e0e3c03064",
+          "dweb:/ipfs/QmR8P21PfFFwt9QJ2mGMB73SjPqbC3cLmqCpbFQ1u1jP4c"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/interfaces/IDidController.sol": {
+        "keccak256": "0x8583c62ca0e5b0cf092285f716474b0aea37ce1c6609fbf080998964b9d82536",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://40ebb2898423b1932391292fff7373244e5ab5f24301d1bd4bacb9b977c14625",
+          "dweb:/ipfs/QmRB6PnbUzjuR6f2eWf6qxwWahdsBUC59jUEkn1qM48dCa"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/interfaces/IDidDocumentDetailed.sol": {
+        "keccak256": "0x0299057aaa8327a62900d6ffbdddd8ccfd9b9aab62d4cc45a308baeb01bad8b7",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://2de8c61a815def6a40c50b47d32c0e056b95e468d26bb7712367293cab9b7f3a",
+          "dweb:/ipfs/QmdQcXgWqJbP4gCe7QmgQc68ZtgCmjsympzPKjdv4keq83"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/interfaces/IDidRegistryQuery.sol": {
+        "keccak256": "0x9aef577eee9d4a66991b02b75b94f39be2cbe95de18d756e549699804fb71ae6",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://0a852330a95a1c52584a3945e30be1f6e34068aa5271e0dc88c5210a7aea92cd",
+          "dweb:/ipfs/QmZDkQ2Aw6q69roauMbNBZAcx9JQpfNBqYiCayEEWQiF2w"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/interfaces/IDidVerificationMethod.sol": {
+        "keccak256": "0xb2bab2e0b6417659a5af2a9838fd21d270e8e7d3c56885fc54bb03a3142118f0",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://8d2b52d431b26928462fee59f8cd1f534f1b08210630a51a01dd3e3efa082307",
+          "dweb:/ipfs/QmWmchkzUC7Re2jn9xvocABnWT9KiC53WzHTJVESr1XqfP"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/didregistry/interfaces/IDidVerificationRelationship.sol": {
+        "keccak256": "0x8f1c8c5a9d457697dc2da32183301c89e467ec14eaf6b7ec3f34897d0a5045c8",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://a7e6a30a804723b988b346658b2ecc3a1de1beebe6b5c417cf56c4377ce6d6b0",
+          "dweb:/ipfs/QmbER3HmZErF7zhn5gHWVATvZ6xLxXx3Xbaa1bbBT2CoxX"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/ens/ensregistry/ENS.sol": {
+        "keccak256": "0x74e75314b248ec47b332c2a9333a68635f3200a13b479c3662d224b2fd37d692",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://7c1f5bfa01975b04532ccf9b5ba08e9c8c5a536b40d0fdda25422d6989b49e3f",
+          "dweb:/ipfs/QmVn3kKs75wQsQbL1NuUzmYoGdfxSKHJ3zN7KmtWt1LUEN"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/identity/ens/publicresolver/ensresolver/IEnsResolver.sol": {
+        "keccak256": "0x4acd6819be252209704a6ab5140eb2b519ec25a8eead0bdb5ef6eae5192b5e15",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://1553d92f9012a5f117d99814e7ad0e9f7766f5a16b67e3e2e789bde9c3c25fba",
+          "dweb:/ipfs/QmXwCEPMj5CbjFFmAuBUQKotcZZpKkP4VeiTDGj6HKAeVY"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/pause/IPause.sol": {
+        "keccak256": "0xfe22421b24ee4e363537945a462269c5500e625ece0b43db7f7c3a4ed2fff860",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://38b63ffd770645ddd230f4b02efe1de1595d2a4361af6cdee761ee84151f0ef9",
+          "dweb:/ipfs/QmTJ9VT9Jd9QnUfMdWCoLP58375bw6kq1hjocKqGJh2vXB"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/pause/PauseInternalCommon.sol": {
+        "keccak256": "0xf62bba38f5d329abb1b7d259a580f8974cff058583eeb61cb4b199e8d01e27e3",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://bfe194199d86bbb4671e579991019fb74f8c2fe5c92a3e57f0aaa29a5fd08847",
+          "dweb:/ipfs/QmfPiSQAMg2si2ueGDi7xc6ZJavLDRn9SZ7WmcDMHiGY8k"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/proxies/eip2535/interfaces/IDiamondLoupe.sol": {
+        "keccak256": "0x413a7bceec446e1be265e81479a7931474be6cd64f2b138ef5a3c39dcf8339c2",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://0951224e62acff8b77195313bca30c51255a858c7e37b3f97e12d777ac504111",
+          "dweb:/ipfs/QmPBanbEwsVv1p6Kpw2wATGajBf1VRwTYGkJbLpa5dQiXJ"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/proxies/eip2535/interfaces/IEIP2535Introspection.sol": {
+        "keccak256": "0x50c1531d314ac2b802681dd0eb5d348feb7abbe486d1737ae22bb678604b4cb1",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://0486af988bbcb93704938a72738f3ef6150860167c4b8af19a7226e783cb4ef2",
+          "dweb:/ipfs/QmVPWiUfb1YKFDNkzRFtYhyoEd6CwnTQRx3FpPYtFWHMdS"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/proxies/isbeproxy/IsbeFactoryInternal.sol": {
+        "keccak256": "0xa5f86a3138732f0ed0bab98854bde05e90e0169e288666736a9d642451d1ab72",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://8fcd0bf2dadd09e670755525bb3f7b91663218a71ed413e932c3507fcabb14f0",
+          "dweb:/ipfs/QmaKRL5Mf6eTFqZuSUa3hnsQnPaUPNiqooLSoz1Q2EKAXd"
+        ]
+      },
+      "@red-isbe/isbe-contracts/contracts/utils/ISBEContext.sol": {
+        "keccak256": "0xdfd9b5be8853d57970776174b7d1bc3c62a96f26a07699c7de5143ccc30bbbc4",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://8ceb2f77bc3d08a9c7a7cd653392876507d698b2f002322309417c7c41483a04",
+          "dweb:/ipfs/QmeyH5zjhXy7TWWpeTyEtsCgpShF2amSQeBXPvgTX2gfvJ"
+        ]
+      },
+      "contracts/QualificaliaHashTimestampFacet.sol": {
+        "keccak256": "0x2d6ab42a8d757881231bb02ecc878e6e7bd597760cfcc5cc45f937b33d42ce7a",
+        "license": "Apache-2.0",
+        "urls": [
+          "bzz-raw://b4ffdd83d3a9946e669fd96e03da231bb6f5ad44d2fb7ed9337e1a2eb9b234eb",
+          "dweb:/ipfs/QmZK5zfsQ6NLVt8izp3euLQfp6KT1YUioRnALjQiF1TCty"
+        ]
+      }
+    },
+    "version": 1
+  }
+}
