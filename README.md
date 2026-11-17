@@ -38,6 +38,8 @@ Se fijan `solc` 0.8.28, optimizador de 200 pasadas, EVM `istanbul` y las depende
 
 La revisión de dependencias con `npm audit` del 16/11/2026 muestra 18 avisos: 13 bajos, 3 moderados y 2 altos (`serialize-javascript` y `tmp`) en el árbol de herramientas y dependencias del proyecto. No se ha evaluado su explotación en este uso concreto. Los cambios mayores que sugiere npm pueden alterar la versión de referencia ISBE o el entorno de pruebas; deben revisarse con el equipo antes de adoptarlos. Estos avisos no son un análisis del contrato Solidity.
 
+El repositorio tiene CI propio para ejecutar las pruebas, verificar la entrega y auditar dependencias con umbral `critical`; los avisos de severidad inferior deben revisarse igualmente. Dependabot propone actualizaciones semanales de npm y GitHub Actions, que requieren revisión antes de cambiar las versiones fijadas.
+
 Las pruebas ejecutan la lógica en Hardhat en memoria y comprueban registro de dos huellas, consulta, duplicados, permisos y pausa. Los contratos `*Harness.sol` son simulaciones exclusivamente locales: no reproducen el DID, Diamond ni la gobernanza de ISBE y no deben desplegarse en PRE o producción. Se recomienda además ensayar con la [red local oficial de ISBE](https://docs.redisbe.com/documentation/smart-contracts/guias-practicas/red-local/) y confirmar con ISBE su procedimiento de integración y despliegue.
 
 ## Estado

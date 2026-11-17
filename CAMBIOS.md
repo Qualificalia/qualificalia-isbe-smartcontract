@@ -1,5 +1,10 @@
 # Registro de cambios
 
+## Separación del proyecto — 17/11/2026
+
+- El proyecto se ubicó junto al resto de proyectos de contratos, fuera del checkout de Wallet Profile, conservando su repositorio Git y remoto propios.
+- Se añadieron un workflow de comprobaciones y auditoría de dependencias y una configuración Dependabot al repositorio independiente. La auditoría CI bloquea vulnerabilidades críticas; los avisos altos documentados necesitan seguimiento propio.
+
 ## Revisión de la documentación de ISBE — 16/11/2026
 
 - Se ajustó el business ID al patrón de la plantilla oficial: `keccak256("isbe.customers.qualificalia.documentRegistry.resolver.key")`. ISBE debe confirmar disponibilidad y el uso de una facet propia frente a la oficial. El cambio modifica el bytecode y requiere una nueva compilación; esta versión aún no está desplegada.
