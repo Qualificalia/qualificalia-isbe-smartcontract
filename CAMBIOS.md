@@ -1,5 +1,9 @@
 # Registro de cambios
 
+## Nombres más claros — 17/11/2026
+
+- Se cambió el nombre de la carpeta `entrega/` a `compilacion/` para identificar su contenido: el artefacto compilado y los datos necesarios para reproducirlo. Se ajustaron el README y la comprobación de coincidencia.
+
 ## Simplificación de la entrega — 17/11/2026
 
 - Se concentraron las instrucciones y datos para ISBE en el README y se retiraron el documento duplicado de entrega y la suite comparativa de la facet oficial.

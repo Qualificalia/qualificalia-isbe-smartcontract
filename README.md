@@ -39,9 +39,9 @@ npm test
 npm run verify:delivery
 ```
 
-Se fijan `solc` 0.8.28, optimizador de 200 pasadas, EVM `istanbul` y las dependencias en `package-lock.json`. `npm run compile` genera en `build/` ABI, bytecode, metadatos y `standard-input.json`, que contiene las fuentes exactas de las dependencias usadas. El compilador comprueba que ese input reproduce el bytecode. La carpeta `entrega/` conserva el input completo y el artefacto de la facet generados para esta versión; `build/` es local y no se versiona.
+Se fijan `solc` 0.8.28, optimizador de 200 pasadas, EVM `istanbul` y las dependencias en `package-lock.json`. `npm run compile` genera en `build/` ABI, bytecode, metadatos y `standard-input.json`, que contiene las fuentes exactas de las dependencias usadas. El compilador comprueba que ese input reproduce el bytecode. La carpeta `compilacion/` conserva el input completo y el artefacto de la facet generados para esta versión; `build/` es local y no se versiona.
 
-`npm run verify:delivery` recompila y comprueba que ambos archivos de `entrega/` coinciden con el resultado. `.gitattributes` fija finales de línea LF en las fuentes para que su contenido y metadatos de compilación sean consistentes entre sistemas.
+`npm run verify:delivery` recompila y comprueba que ambos archivos de `compilacion/` coinciden con el resultado. `.gitattributes` fija finales de línea LF en las fuentes para que su contenido y metadatos de compilación sean consistentes entre sistemas.
 
 La revisión de dependencias con `npm audit` del 16/11/2026 muestra 18 avisos: 13 bajos, 3 moderados y 2 altos (`serialize-javascript` y `tmp`) en el árbol de herramientas y dependencias del proyecto. No se ha evaluado su explotación en este uso concreto. Los cambios mayores que sugiere npm pueden alterar la versión de referencia ISBE o el entorno de pruebas; deben revisarse con el equipo antes de adoptarlos. Estos avisos no son un análisis del contrato Solidity.
 
