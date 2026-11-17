@@ -16,7 +16,6 @@ La lógica de `HashTimestamp` rechaza duplicados y acepta `bytes32(0)`; el emiso
 - Dirección pública de la cartera solicitada para registrar huellas en PRE: `0xb26f4BbDa0ef99928C0c9F9239e7bE73ADA1be91`.
 - Dependencia: `@red-isbe/isbe-contracts` **0.2.1**, con almacenamiento y lógica oficiales de `HashTimestamp`.
 - Business ID propuesto: `keccak256("isbe.customers.qualificalia.documentRegistry.resolver.key")` = `0x1731c65d9dd332bcfd4ee398add0a7f786149f91a2dd48abc865b4ebeff1bb3b`.
-- Rol de escritura: `_HASH_TIMESTAMP_ROLE` = `0x3bb8341caefb6dc4800c130d6d6d2789f8c4e534bc168ff9a7eda2e2831a721f`. Se solicita concederlo inicialmente solo a la dirección indicada arriba. El contrato admite permisos por cuenta o DID; hay que comprobar los permisos efectivos.
 - Slot de almacenamiento: `0x9461e6f53daf5c3d0aa4d10025e40b84fad06da43fb4fab1a98f3e6b3a58d616`, con `mapping(bytes32 => uint256)`. La facet comparte selectores y almacenamiento con la `HashTimestampFacet` oficial; deben evitarse conflictos en la configuración.
 
 La facet se integra en un Diamond de ISBE. La composición debe incluir el control de roles y pausa.
