@@ -3,17 +3,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const solc = require('solc');
 const root = path.resolve(__dirname, '..');
-const facet = '@red-isbe/isbe-contracts/contracts/hashtimestamp/HashTimestampFacet.sol';
-const harness = 'contracts/HashTimestampHarness.sol';
 const qualificaliaFacet = 'contracts/QualificaliaHashTimestampFacet.sol';
-const qualificaliaHarness = 'contracts/QualificaliaHashTimestampHarness.sol';
+const qualificaliaHarness = 'test/QualificaliaHashTimestampHarness.sol';
 const source = name => fs.readFileSync(path.join(root, name.startsWith('@') ? 'node_modules' : '', name), 'utf8');
 if (!solc.version().startsWith('0.8.28+')) throw new Error('Expected pinned solc 0.8.28');
 const input = {
   language: 'Solidity',
   sources: {
-    [facet]: {content: source(facet)},
-    [harness]: {content: source(harness)},
     [qualificaliaFacet]: {content: source(qualificaliaFacet)},
     [qualificaliaHarness]: {content: source(qualificaliaHarness)},
   },
@@ -32,8 +28,6 @@ if ((output.errors || []).some(d => d.severity === 'error')) process.exit(1);
 const outDir = path.join(root, 'build');
 fs.mkdirSync(outDir, {recursive: true});
 for (const [sourceName, contractName] of [
-  [facet, 'HashTimestampFacet'],
-  [harness, 'HashTimestampHarness'],
   [qualificaliaFacet, 'QualificaliaHashTimestampFacet'],
   [qualificaliaHarness, 'QualificaliaHashTimestampHarness'],
 ]) {
@@ -47,10 +41,10 @@ for (const [sourceName, contractName] of [
 const completeInput = {...input, sources: {...input.sources, ...importedSources}};
 const reproduced = JSON.parse(solc.compile(JSON.stringify(completeInput)));
 if ((reproduced.errors || []).some(d => d.severity === 'error') ||
-    [[facet, 'HashTimestampFacet'], [qualificaliaFacet, 'QualificaliaHashTimestampFacet'],
+    [[qualificaliaFacet, 'QualificaliaHashTimestampFacet'],
       [qualificaliaHarness, 'QualificaliaHashTimestampHarness']].some(([sourceName, contractName]) =>
       reproduced.contracts[sourceName][contractName].evm.bytecode.object !== output.contracts[sourceName][contractName].evm.bytecode.object)) {
   throw new Error('Self-contained Standard JSON Input failed bytecode reproduction');
 }
 fs.writeFileSync(path.join(outDir, 'standard-input.json'), JSON.stringify(completeInput, null, 2) + '\n');
-console.log('Compiled official HashTimestampFacet 0.2.1, Qualificalia ISBE facet, and local-only harnesses with ' + solc.version());
+console.log('Compiled Qualificalia ISBE facet and local-only harness with ' + solc.version());

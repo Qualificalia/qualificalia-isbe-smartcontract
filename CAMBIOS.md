@@ -1,5 +1,11 @@
 # Registro de cambios
 
+## Simplificación de la entrega — 17/11/2026
+
+- Se concentraron las instrucciones y datos para ISBE en el README y se retiraron el documento duplicado de entrega y la suite comparativa de la facet oficial.
+- Se conservan y agrupan las pruebas de la facet de Qualificalia, incluido el control simulado de permisos y pausa. El harness se encuentra en `test/` para identificarlo como prueba.
+- Se regeneraron los artefactos de entrega con las fuentes necesarias para compilar la facet y su harness de prueba. Los pendientes de integración, seguridad y despliegue constan en el README.
+
 ## Separación del proyecto — 17/11/2026
 
 - El proyecto se ubicó junto al resto de proyectos de contratos, fuera del checkout de Wallet Profile, conservando su repositorio Git y remoto propios.
