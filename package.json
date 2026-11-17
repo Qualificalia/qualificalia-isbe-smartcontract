@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "4.9.6",
-    "@red-isbe/isbe-contracts": "0.2.1",
+    "@red-isbe/isbe-contracts": "0.3.0",
     "ethers": "6.17.0",
     "hardhat": "2.29.2",
     "solc": "0.8.28"
