@@ -51,6 +51,6 @@ Las pruebas ejecutan la lógica en Hardhat en memoria y comprueban registro de d
 
 ## Estado
 
-El código se entrega para revisión técnica de ISBE. La aceptación del business ID, la versión admitida, la composición del Diamond, los permisos y su vinculación a la identidad corporativa requieren confirmación de ISBE. La [guía de contratos custom](https://docs.redisbe.com/documentation/smart-contracts/contratos-custom/) contempla además scripts de despliegue, pruebas de integración, cobertura y análisis estático; este proyecto aún no incorpora esas evidencias y debe acordar con ISBE el procedimiento aplicable. El emisor de Wallet Profile debe integrarse con el Diamond una vez conocido el despliegue. Los cambios se documentan en [CAMBIOS.md](CAMBIOS.md).
+El código se entrega para revisión técnica de ISBE. La aceptación del business ID, la versión admitida, la composición del Diamond, los permisos y su vinculación a la identidad corporativa requieren confirmación de ISBE. La [guía de contratos custom](https://docs.redisbe.com/documentation/smart-contracts/contratos-custom/) contempla además scripts de despliegue, pruebas de integración, cobertura y análisis estático; este proyecto aún no incorpora esas evidencias y debe acordar con ISBE el procedimiento aplicable. El emisor de Wallet Profile debe integrarse con el Diamond una vez conocido el despliegue.
 
 Código bajo licencia Apache-2.0; `HashTimestamp` y otras dependencias mantienen sus licencias y atribuciones originales.
