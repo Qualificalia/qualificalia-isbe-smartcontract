@@ -14,6 +14,6 @@
     "@red-isbe/isbe-contracts": "0.2.1",
     "ethers": "6.17.0",
     "hardhat": "2.29.2",
-    "solc": "0.8.28"
+    "solc": "0.8.39"
   }
 }
